@@ -7,7 +7,10 @@ class Search extends Component {
     return (
         <div className="search-books">
           <div className="search-books-bar">
-            <Link className="close-search" to='/' title='Close'>Close</Link>
+
+            {/*Add link to homepage*/}
+            <Link className="close-search" to='/' title='Back'>Back</Link>
+
             <div className="search-books-input-wrapper">
               {/*
                   NOTES: The search from BooksAPI is limited to a particular set of search terms.
