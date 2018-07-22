@@ -1,12 +1,24 @@
 import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
+import withoutCover from './img/no_cover.jpg'
 
 
 class SingleBook extends Component{
 
     render() {
 
-      const { book, books, changeShelf } = this.props;
+      const { book, changeShelf, books } = this.props;
+      const cover = (book.imageLinks && book.imageLinks.thumbnail) ? book.imageLinks.thumbnail : withoutCover
+
+      // default value of shelf
+      let currentShelf = 'none';
+
+
+      books.forEach((item)=>{
+        if (item.id === book.id) {
+          currentShelf = item.shelf;
+        }
+      })
 
       return (
           <li key={book.id}>
@@ -16,11 +28,11 @@ class SingleBook extends Component{
                   <div className="book-cover" style={{
                     width: 128,
                     height: 193,
-                    backgroundImage: `url("${book.imageLinks.smallThumbnail}")`,
+                    backgroundImage: `url("${cover}")`,
                   }}></div>
                 </Link>
                 <div className="book-shelf-changer">
-                  <select>
+                  <select onChange={(e) => changeShelf(book, e.target.value)} defaultValue={ currentShelf }>
                     <option value="move" disabled>Move to...</option>
                     <option value="currentlyReading">Currently Reading </option>
                     <option value="wantToRead">Want to Read </option>
@@ -33,7 +45,6 @@ class SingleBook extends Component{
               {book.authors && book.authors.map((author) =>(
                   <div className="book-authors" key={author}>{author || "No author available"}</div>
               ))}
-
             </div>
           </li>
       )

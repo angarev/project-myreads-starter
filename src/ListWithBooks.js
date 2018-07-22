@@ -5,7 +5,7 @@ import SingleBook from './SingleBook';
 class ListWithBooks extends Component {
   render() {
 
-    const {books} = this.props;
+    const {books, changeShelf } = this.props;
     
     const shelves = {
       currentlyReading: 'Currently Reading',
@@ -28,7 +28,11 @@ class ListWithBooks extends Component {
                         <ol className="books-grid">
                           {books.filter(book => book.shelf === shelf).map((book) => {
                             return (
-                                <SingleBook key={book.title} book={book}/>
+                                <SingleBook key={book.title}
+                                            book={book}
+                                            books = {books}
+                                            changeShelf={ changeShelf }
+                                />
                               );
                             })
                           }

@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
 import * as BooksAPI from './BooksAPI';
-
+import withoutCover from './img/no_cover.jpg'
 
 class PreviewBook extends Component{
 
@@ -15,7 +15,7 @@ class PreviewBook extends Component{
       this.setState({
         authors: book.authors,
         name: book.title,
-        image: book.imageLinks && book.imageLinks.thumbnail ? book.imageLinks.thumbnail : "noCover",
+        image: book.imageLinks,
         disc: book.description,
         subtitle: book.subtitle,
         rating: book.averageRating,
@@ -27,6 +27,8 @@ class PreviewBook extends Component{
 
 
   render() {
+
+    const cover = (this.state.image && this.state.image.thumbnail) ? this.state.image.thumbnail : withoutCover;
 
     return (
         <div className="search-books">
@@ -41,7 +43,7 @@ class PreviewBook extends Component{
           </div>
           <div className="preview-content">
             <div className="preview-image">
-              <div className="book-cover" style={{width: 128, height: 193, backgroundImage: `url("${this.state.image}")`}} ></div>
+              <div className="book-cover" style={{width: 128, height: 193, backgroundImage: `url("${cover}")`}} ></div>
             </div>
             <div className="preview-title">
               <h1>{this.state.name}</h1>
@@ -49,8 +51,11 @@ class PreviewBook extends Component{
               {this.state.authors && this.state.authors.map((author, index) =>(
                   <span className="book-authors" key={author}>{ author || "No author available" } </span>
               ))}
-              <h5><span className="rating">Rating:</span> {this.state.rating || "No rating"}, <span>Publisher: </span> {this.state.publisher || "N/A"}, <span> Identifier: </span>{this.state.identifier}</h5>
-              <p>{this.state.disc}</p>
+              <h5><span className="rating">Rating:
+                </span> {this.state.rating || "No rating"},
+                <span>Publisher: </span> {this.state.publisher || "N/A"},
+                <span> Identifier: </span>{this.state.identifier || "N/A"}</h5>
+              <p>{this.state.disc || "No description available"}</p>
             </div>
           </div>
 
